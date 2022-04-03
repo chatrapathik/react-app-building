@@ -1,0 +1,1 @@
+export { default as micronLogo } from "./micron.png"
