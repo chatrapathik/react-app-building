@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const steps = ['Filters', 'Select Joins', 'Choose Primary', "Summary"];
+const steps = ['Filters', 'Joins', 'Primary', 'Generate Query', 'Submit'];
 
 export function HorizontalStepper(props: any) {
 

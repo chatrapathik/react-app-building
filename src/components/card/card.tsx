@@ -4,9 +4,12 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Button from '@mui/material/Button';
 
 export function SimpleAccordion(props: any) {
-  const {title, desc, openCard, onChange, id} = props
+  const {title, desc, openCard, onChange, id, columns} = props
+  const _columns = columns ? columns : []
+  console.log("new props", props)
   return (
     <div>
       <Accordion 
@@ -23,7 +26,11 @@ export function SimpleAccordion(props: any) {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            {desc}
+            {_columns.map((item: any, idx: number) => (
+                <Button variant="contained" disabled={item.filterDiable} style={{ margin: "0 5px 15px" }}>
+                  {item.column}
+                </Button>
+            ))}
           </Typography>
         </AccordionDetails>
       </Accordion>
