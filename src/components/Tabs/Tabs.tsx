@@ -5,34 +5,28 @@ import Box from '@mui/material/Box';
 import axios from "axios";
 
 
-export function DBTabs(){
-  const [value, setValue] = React.useState('tad');
-  const [tables, setItems] = React.useState([]);
+export function DBTabs(props: any){
+  // const [tables, setItems] = React.useState([]);
 
+  // const getAllTables = (db: any) => {
+  //   console.log("Im here", db)
+  //   axios.get(`http://rdb11.micron.com:5050/api/tables/${db}`)
+  //        .then((response: any) => {
+  //           setItems(response.data.tables);
+  //        })
+  //        .catch(error => { console.log("Error", error)})
 
-  const getAllTables = (db: any) => {
-    console.log("Im here", db)
-    axios.get(`http://rdb11.micron.com:5050/api/tables/${db}`)
-         .then((response: any) => {
-            console.log("response is", response)
-            setItems(response.data.tables);
-            console.log(response.data.tables)
-
-         })
-         .catch(error => { console.log("Error", error)})
-
-  }
+  // }
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-    console.log(getAllTables(newValue))
+    props.changeTab(newValue)
   };
 
   return (
     <Box sx={{ width: '100%', marginBottom: "24px" }}>
       <Tabs
-        value={value}
+        value={props.tab}
         onChange={handleChange}
         textColor="secondary"
         indicatorColor="secondary"

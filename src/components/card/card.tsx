@@ -1,16 +1,37 @@
-import * as React from 'react';
+import React, { useState, useEffect} from "react"
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Button from '@mui/material/Button';
+
+import { Grid } from '@mui/material';
+
+import { MultipleSelectCheckmarks} from "./../../components"
+
+import axios from "axios";
 
 export function SimpleAccordion(props: any) {
-  const {title, desc, openCard, onChange, id, columns} = props
-  const _columns = columns ? columns : []
-  console.log("new props", props)
+  const {table, desc, openCard, onChange, id, dataBase} = props
+  const [columns, setColumns] = useState([]);
+
+  const getColumns = () => {
+    let url = `http://rdb11.micron.com:5050/api/column/${dataBase}/${table}`
+    // return []
+    axios.get(url)
+      .then((response: any) => {
+        setColumns(response.data.columns)
+    }).catch(error => { console.log("Error", error)})
+  }
+
+  //Life cycle hook used to make API call
+  useEffect(() => {
+    //TO uncomments when API call is made
+    getColumns();
+  }, [])
+
   return (
+
     <div>
       <Accordion 
         expanded={openCard}
@@ -22,14 +43,12 @@ export function SimpleAccordion(props: any) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>{title}</Typography>
+          <Typography>{table}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            {_columns.map((item: any, idx: number) => (
-                <Button variant="contained" disabled={item.filterDiable} style={{ margin: "0 5px 15px" }}>
-                  {item.column}
-                </Button>
+            {columns.map((item: any, idx: number) => (
+                <MultipleSelectCheckmarks dataBase={dataBase} table={table} column={item.column} columnDisabled={item.filterDisable}></MultipleSelectCheckmarks>
             ))}
           </Typography>
         </AccordionDetails>

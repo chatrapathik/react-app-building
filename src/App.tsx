@@ -6,9 +6,9 @@ function App() {
   return (
     <div className="App">
       <div className="App-header">
-          <div>
+          {/* <div>
             <img alt="micron logo" src={micronLogo} width={50} />
-          </div>
+          </div> */}
           <Filter />
       </div>
     </div>
