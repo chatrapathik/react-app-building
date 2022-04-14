@@ -22,7 +22,7 @@ const MenuProps = {
 
 export function MultipleSelectCheckmarks(props: any) {
   const [checkedValues, setCheckedValues] = React.useState<string[]>([]);
-  const {dataBase, table, column, columnDisabled} = props
+  const {dataBase, table, column, columnDisabled, filtersData} = props
   const [columnValues, setColumnValues] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof checkedValues>) => {
@@ -33,6 +33,19 @@ export function MultipleSelectCheckmarks(props: any) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    if (filtersData[dataBase] == undefined){
+      filtersData[dataBase] = {};
+    }
+    
+    if (filtersData[dataBase][table] === undefined){
+      filtersData[dataBase][table] = {};
+    }
+    filtersData[dataBase][table][column] = value;
+    props.onCheck(filtersData);
+    if (props.updateFilters){
+      props.updateFilters();
+
+    }
   };
 
   const getColumnValues = () => { 
@@ -53,7 +66,7 @@ export function MultipleSelectCheckmarks(props: any) {
 
   return (
     <div>
-        <FormControl sx={{ m: 1, width: 300 }} disabled={columnDisabled}>
+        <FormControl sx={{ m: 1, width: 300,}} disabled={columnDisabled}>
           <InputLabel id="demo-multiple-checkbox-label">{column}</InputLabel>
           <Select
             labelId="demo-multiple-checkbox-label"
@@ -76,5 +89,3 @@ export function MultipleSelectCheckmarks(props: any) {
     </div>
   );
 }
-
-

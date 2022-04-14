@@ -5,15 +5,15 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { Grid } from '@mui/material';
-
-import { MultipleSelectCheckmarks} from "./../../components"
+import { MultipleSelectCheckmarks} from "./../../components";
+import Grid from '@mui/material/Grid';
 
 import axios from "axios";
 
 export function SimpleAccordion(props: any) {
-  const {table, desc, openCard, onChange, id, dataBase} = props
+  const {table, openCard, onChange, id, dataBase, filters} = props
   const [columns, setColumns] = useState([]);
+  const [filtersData, setFiltersData] = useState(filters);
 
   const getColumns = () => {
     let url = `http://rdb11.micron.com:5050/api/column/${dataBase}/${table}`
@@ -30,13 +30,24 @@ export function SimpleAccordion(props: any) {
     getColumns();
   }, [])
 
+  const onCardSwitch = () => {
+    onChange(id);
+  }
+
+  const updateFilters = () => {
+    let new_obj  = Object.assign(filters, filtersData);
+    if ( props.setFiltersData ){
+      props.setFiltersData(new_obj)
+    }
+  }
+
   return (
 
     <div>
       <Accordion 
         expanded={openCard}
         style={{ 'border': "1px solid #ccc", margin: "8px 0" }}
-        onChange={() => onChange(id)}
+        onChange={onCardSwitch}
         >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -46,11 +57,13 @@ export function SimpleAccordion(props: any) {
           <Typography>{table}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+        <Grid container spacing={2}>
             {columns.map((item: any, idx: number) => (
-                <MultipleSelectCheckmarks dataBase={dataBase} table={table} column={item.column} columnDisabled={item.filterDisable}></MultipleSelectCheckmarks>
+              <Grid item xs={6} md={4}>
+                <MultipleSelectCheckmarks updateFilters={updateFilters} onCheck={setFiltersData} filtersData={filtersData} dataBase={dataBase} table={table} column={item.column} columnDisabled={item.filterDisable}></MultipleSelectCheckmarks>
+              </Grid>
             ))}
-          </Typography>
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </div>
