@@ -6,7 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from "axios";
 
 export function SingleSelectDD(props: any) {
-  const {selectedValue, label, reqUrl, apiType} = props
+  const {selectedValue, label, reqUrl, apiType, disable=false} = props
   const [values, setDropdownValues] = React.useState<string[]>([])
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -42,8 +42,14 @@ export function SingleSelectDD(props: any) {
 
               response.data.columns.map((item: any) => (
                 colunm_data.push(item.column)
-              ))
-              setDropdownValues(colunm_data);
+              ))      
+              var new_colunms: any[] = []
+              colunm_data.forEach((column) => {
+                if (column.substr(-4) === "hash" || ["dieN32", "test_number", "slash_lot"].includes(column)) {
+                  new_colunms.push(column)
+                }
+              });
+              setDropdownValues(new_colunms);
             }
         })
         .catch(error => { console.log("Error", error)})
@@ -65,9 +71,10 @@ export function SingleSelectDD(props: any) {
           value={selectedValue}
           label={label}
           onChange={handleChange}
+          disabled={disable}
         >
           {values.map((item: any) => (
-              <MenuItem value={item}>{item}</MenuItem>
+              <MenuItem value={item} key={item+label}>{item}</MenuItem>
           ))}
         </Select>
       </FormControl>

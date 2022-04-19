@@ -7,15 +7,15 @@ import Typography from '@mui/material/Typography';
 
 export function QueryCard(props: any) {
 
-  const {queryData} = props
+  const {queryData, sqlQuery} = props
   const [loader, setLoader] = React.useState(true)
-  const [sqlQuery, setSQLQuery] = React.useState("")
+
   console.log("data is: ", queryData)
   const getQuery = () => {
-    axios.post(`http://10.71.178.186:5050/api/query`, queryData)
+    axios.post(`http://10.71.203.188:5050/api/query`, queryData)
         .then((response: any) => {
         setLoader(false);
-        setSQLQuery(response.data.query);
+        props.setSQLQuery(response.data.query);
       }).catch(error => { console.log("Error", error)})
     }
     
