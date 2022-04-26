@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react"
 import axios from "axios";
 
-import { Card, Stepper, Tabs, JoinCard, QueryCard } from "./../../components"
+import { Card, Stepper, Tabs, JoinCard, QueryCard, DataPreview } from "./../../components"
 import CircularProgress from '@mui/material/CircularProgress';
 import '../../App.css';
 
@@ -18,7 +18,11 @@ export function Filter(){
   const [sqlQuery, setSQLQuery] =  useState("")
 
   const changeStep = (step: any) => {
-      setStep(step+1);
+      let newStep = step+1;
+      setStep(newStep);
+      if (newStep === 5){
+        setJoinData({[defaultId]: {}})
+      }
   }
 
   const getAllFilters = (newTab: any) => {
@@ -78,9 +82,7 @@ export function Filter(){
         </div>
       )}
       {step===3 && <QueryCard sqlQuery={sqlQuery} setSQLQuery={setSQLQuery} queryData={{"filters": filterValues, "joins": filterJoinData() }}/>}
+      {step===4 && <DataPreview query={sqlQuery} />}
     </>
   )
 }
-
-
-

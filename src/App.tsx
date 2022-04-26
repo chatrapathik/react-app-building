@@ -11,6 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import './App.css';
 import  { Filter } from "./components"
@@ -43,6 +45,7 @@ function App() {
     <div className="App">
       <AppBar position="static">
         <Container maxWidth="xl">
+          {/* <Toolbar disableGutters style={{ margin: "0rem -11rem"}}> */}
           <Toolbar disableGutters>
             <Typography
               variant="h6"
@@ -105,7 +108,19 @@ function App() {
                 </Button>
               ))}
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0}}>
+              <Tooltip title="Open settings">
+                <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                style={{ margin: "0rem 1rem"}}
+              >
+                <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge>
+                </IconButton>
+              </Tooltip>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Chatra" src="/static/images/avatar/2.jpg" />
